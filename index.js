@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-  const ipAddress = req.ip.split(":").pop();
+  const ipAddress = req.headers["x-forwarded-for"].split(",")[0];
   const language = req.acceptsLanguages()[0];
   const userAgent = req.headers["user-agent"];
   const operatingSystem = (/\(([^)]+)\)/).exec(userAgent)[1];
