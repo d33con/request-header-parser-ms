@@ -4,8 +4,13 @@ const app = express();
 app.get("/", (req, res) => {
   const ipAddress = req.ip.split(":").pop();
   const language = req.acceptsLanguages()[0];
-  const operatingSystem = req.headers["user-agent"];
-  res.send(JSON.stringify({ ip: ipAddress, language, os: operatingSystem }));
+  const userAgent = req.headers["user-agent"];
+  const operatingSystem = (/\(([^)]+)\)/).exec(userAgent)[1];
+  res.send({
+    ip: ipAddress,
+    language,
+    os: operatingSystem
+  });
 });
 
 // listen for requests
